@@ -1,6 +1,7 @@
 import pandas as pd
 import yfinance as yf
 
+
 def main(start_date, end_date, stocks):
     data = yf.download(stocks, start=start_date, end=end_date)
 
@@ -26,6 +27,7 @@ def main(start_date, end_date, stocks):
             stat['mean'].to_excel(writer, sheet_name=f'{price_type} Mean Returns')
             stat['variance'].to_excel(writer, sheet_name=f'{price_type} Variance')
             stat['cov_matrix'].to_excel(writer, sheet_name=f'{price_type} Covariance Matrix')
+
 
 if __name__ == '__main__':
     start_date = '2018-01-01'

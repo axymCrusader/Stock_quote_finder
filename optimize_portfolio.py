@@ -41,7 +41,7 @@ def close_portfolio(tickers, start_date, end_date):
 
     # Рассчитываем статистику
     close_mean_returns, close_variance, close_cov_matrix = calculate_statistics(close_prices)
-    max_weight = 0.4
+    max_weight = 0.6
     print(close_mean_returns)
     print(close_variance)
     print(close_cov_matrix)
@@ -85,7 +85,7 @@ def close_portfolio(tickers, start_date, end_date):
     optimized_weights_max_return = result_max_return.x
 
     # Выводим оптимизированные веса и портфель для максимальной доходности
-    print("\nИнвестиционный портфель максимальной доходности при заданной волатильности:")
+    print("\nИнвестиционный портфель максимальной доходности при заданном риске:")
     print(tickers)
     print(f"Доли: {optimized_weights_max_return}")
     print(f"Доходность: {-result_max_return.fun:.4f}")
@@ -98,7 +98,7 @@ def high_portfolio(tickers, start_date, end_date):
 
     # Рассчитываем статистику
     high_mean_returns, high_variance, high_cov_matrix = calculate_statistics(high_prices)
-    max_weight = 0.4
+    max_weight = 0.6
     print(high_mean_returns)
     print(high_variance)
     print(high_cov_matrix)
@@ -142,7 +142,7 @@ def high_portfolio(tickers, start_date, end_date):
     optimized_weights_max_return = result_max_return.x
 
     # Выводим оптимизированные веса и портфель для максимальной доходности
-    print("\nИнвестиционный портфель максимальной доходности при заданной волатильности:")
+    print("\nИнвестиционный портфель максимальной доходности при при заданном риске:")
     print(tickers)
     print(f"Доли: {optimized_weights_max_return}")
     print(f"Доходность: {-result_max_return.fun:.4f}")
@@ -154,12 +154,12 @@ def open_portfolio(tickers, start_date, end_date):
 
     # Рассчитываем статистику
     open_mean_returns, open_variance, open_cov_matrix = calculate_statistics(open_prices)
-    max_weight = 0.4
+    max_weight = 0.6
     print(open_mean_returns)
     print(open_variance)
     print(open_cov_matrix)
     # Оптимизируем веса для минимизации волатильности при заданной ожидаемой доходности
-    target_return_min_risk = 0.03  # Задайте ваш минимальный уровень доходности
+    target_return_min_risk = 0.2  # Задайте ваш минимальный уровень доходности
     constraints_min_risk = ({'type': 'eq', 'fun': lambda weights: np.sum(weights) - 1},
                             {'type': 'eq',
                              'fun': lambda weights: constraint_return(weights, open_mean_returns, open_cov_matrix,
@@ -182,7 +182,7 @@ def open_portfolio(tickers, start_date, end_date):
     print(f"Риск: {result_min_risk.fun:.4f}")
 
     # Оптимизируем веса для максимизации доходности при заданной волатильности
-    target_volatility_max_return = 0.2  # Задайте ваш максимальный уровень волатильности
+    target_volatility_max_return = 0.05  # Задайте ваш максимальный уровень волатильности
     constraints_max_return = ({'type': 'eq', 'fun': lambda weights: np.sum(weights) - 1},
                               {'type': 'eq', 'fun': lambda weights: constraint_volatility(weights, open_mean_returns,
                                                                                           open_cov_matrix,
@@ -198,7 +198,7 @@ def open_portfolio(tickers, start_date, end_date):
     optimized_weights_max_return = result_max_return.x
 
     # Выводим оптимизированные веса и портфель для максимальной доходности
-    print("\nИнвестиционный портфель максимальной доходности при заданной волатильности:")
+    print("\nИнвестиционный портфель максимальной доходности при заданном риске:")
     print(tickers)
     print(f"Доли: {optimized_weights_max_return}")
     print(f"Доходность: {-result_max_return.fun:.4f}")
@@ -210,7 +210,6 @@ def main():
     tickers = ['AAPL', 'SONY', 'TSLA', 'META', 'NFLX']
     start_date = '2019-01-01'
     end_date = '2021-01-01'
-    np.set_printoptions(floatmode="fixed")
     print('------------------------------------------CLOSE------------------------------------------')
     close_portfolio(tickers, start_date, end_date)
     print('------------------------------------------HIGH-------------------------------------------')
